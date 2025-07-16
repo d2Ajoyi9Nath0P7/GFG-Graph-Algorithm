@@ -1,0 +1,40 @@
+void dfs(int node,vector<int>&vis,vector<int>adj[])
+{
+    vis[node] = 1;
+    for(int child : adj[node])
+    {
+        if(!vis[child])
+        {
+            dfs(child,vis,adj);
+        }
+    }
+}
+
+int Solve(int n, vector<vector<int>>& edge)
+{
+    int m = edge.size();
+    if(n-1 > m)//node and edge er value diff 2 kom or er ceye kom hole -1..Jodi edge 1 kom hole or 1 er ceye besi hole always valid
+    {
+        return -1;
+    }
+
+    vector<int>adj[n];
+    for(auto it : edge)
+    {
+        int u = it[0];
+        int v = it[1];
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    int cc = 0;
+    vector<int>vis(n,0);
+    for(int i = 0 ; i < n ; i++)
+    {
+        if(!vis[i])
+        {
+            cc++;
+            dfs(i,vis,adj);
+        }
+    }
+    return cc-1;
+}
