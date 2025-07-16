@@ -1,0 +1,24 @@
+int nodeLevel(int V, vector<int> adj[], int X)
+{
+    vector<int>level(V,-1);
+    queue<int>q;
+    q.push(0);
+    level[0] = 0;
+
+    while(!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+
+        for(int child : adj[node])
+        {
+            if(level[child] == -1)
+            {
+                q.push(child);
+                level[child] = level[node] + 1;
+            }
+        }
+    }
+
+    return level[X];
+}
