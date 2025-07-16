@@ -1,0 +1,47 @@
+int dx[8] = {-1, -1, -1, 0, 0, +1, +1, +1};
+int dy[8] = {-1,  0, +1, -1, +1, -1,  0, +1};
+
+bool isValid(int i,int j,vector<vector<int>>&vis,vector<vector<int>>&grid)
+{
+    if(i >= 0 && i < grid.size() && j >= 0 && j < grid[0].size() && vis[i][j] == 0)
+    {
+        return true;
+    }
+    return false;
+}
+
+int dfs(int i,int j,vector<vector<int>>&vis,vector<vector<int>>&grid,int cnt)
+{
+    vis[i][j] = 1;
+    cnt++;
+
+    for(int u = 0; u < 8 ; u++)
+    {
+        int newX = i + dx[u];
+        int newY = j + dy[u];
+
+        if(isValid(newX,newY,vis,grid) && grid[newX][newY] == 1)
+        {
+            cnt = dfs(newX,newY,vis,grid,cnt);
+        }
+    }
+
+    return cnt;
+}
+
+int findMaxArea(vector<vector<int>>& grid)
+{
+    vector<vector<int>>vis(grid.size(),vector<int>(grid[0].size(),0));
+    int cnt = 0;
+    for(int i = 0 ; i < grid.size() ; i++)
+    {
+        for(int j = 0 ; j < grid[0].size() ; j++)
+        {
+            if(grid[i][j] == 1 && vis[i][j] == 0)
+            {
+                cnt = max(cnt,dfs(i,j,vis,grid,0));
+            }
+        }
+    }
+    return cnt;
+}
