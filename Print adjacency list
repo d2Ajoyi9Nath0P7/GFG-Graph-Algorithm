@@ -1,0 +1,25 @@
+vector<vector<int>> printGraph(int V, vector<pair<int, int>>& edges)
+{
+    vector<vector<int>>res;
+    vector<int>adj[V];
+
+    for(pair<int,int> it : edges)
+    {
+        int u = it.first;
+        int v = it.second;
+
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    for(int i = 0 ; i < V ; i++)
+    {
+        vector<int>temp;
+        for(auto it : adj[i])
+        {
+            temp.push_back(it);
+        }
+        res.push_back(temp);
+    }
+    return res;
+}
