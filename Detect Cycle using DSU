@@ -1,0 +1,62 @@
+int findParent(int node,vector<int>&parent)//o(1)
+{
+    if(node == parent[node])
+    {
+        return node;
+    }
+    return parent[node] = findParent(parent[node],parent);
+}
+void unionFind(int u,int v,vector<int>&parent,vector<int>&size)
+{
+    int ulp_u = findParent(u,parent);//o(1)
+    int ulp_v = findParent(v,parent);//o(1)
+
+    if(ulp_u == ulp_v)
+    {
+        return;
+    }
+    if(size[ulp_u] > size[ulp_v])
+    {
+        parent[ulp_v] = ulp_u;
+        size[ulp_u] += size[ulp_v];
+    }
+    else
+    {
+        parent[ulp_u] = ulp_v;
+        size[ulp_v] += size[ulp_u];
+    }
+}
+int detectCycle(int V, vector<int> adj[])
+{
+    vector<int>parent(V);
+    vector<int>size(V);
+
+    for(int i = 0 ; i < V ; i++)
+    {
+        parent[i] = i;
+    }
+    for(int i = 0 ; i < V ; i++)
+    {
+        size[i] = 1;
+    }
+
+    for(int u = 0 ; u < V ; u++)
+    {
+        for(int v : adj[u])//1
+        {
+            if(v > u)
+            {
+                if(findParent(u,parent) == findParent(v,parent))//0 1
+                {
+                    return 1;
+                }
+                else
+                {
+                    unionFind(u,v,parent,size);//
+                }
+            }
+        }
+    }
+
+    return 0;
+}
