@@ -1,0 +1,69 @@
+bool dfs(int node,vector<int>Adj[],int parent,vector<int>&vis)
+{
+    vis[node] = 1;
+
+    for(auto child : Adj[node])
+    {
+        if(!vis[child])
+        {
+            if(dfs(child,Adj,node,vis))
+            {
+                return true;
+            }
+        }
+        else
+        {
+            if(parent != child)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool solve(int n,int m,vector<int>Adj[])
+{
+    int cc = 0;
+    int parent = -1;
+    vector<int>vis(n,0);
+
+    for(int i = 0 ; i < n ; i++)
+    {
+        if(!vis[i])
+        {
+            cc++;
+            if(dfs(i,Adj,parent,vis))
+            {
+                return false;//cycle peye gechi
+            }
+        }
+    }
+
+    if(cc == 1)
+    {
+        return true;
+    }
+    return false;//cc > 1
+}
+
+int isTree(int n, int m, vector<vector<int>> &adj)
+{
+    vector<int>Adj[n];
+
+    for(auto i : adj)
+    {
+        int u = i[0];
+        int v = i[1];
+        Adj[u].push_back(v);
+        Adj[v].push_back(u);
+    }
+    if(solve(n,m,Adj))
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
