@@ -1,0 +1,46 @@
+Problem name : BFS in Graph(Coding Ninjas)
+Problem link : https://www.naukri.com/code360/problems/bfs-in-graph_973002?leftPanelTabValue=PROBLEM&count=25&page=1&search=&sort_entity=order&sort_order=ASC&customSource=studio_nav
+
+
+void solve(vector<int>&res,vector<int>ad[],vector<int>&visited)
+{
+    queue<int>q;
+
+    q.push(0);
+    visited[0] = true;
+
+    while(!q.empty())
+    {
+        int frnt = q.front();
+        res.push_back(frnt);
+        q.pop();
+
+        for(auto child : ad[frnt])
+        {
+            if(!visited[child])
+            {
+                visited[child] = true;
+                q.push(child);
+            }
+        }
+    }
+}
+
+
+vector<int> bfsTraversal(int n, vector<vector<int>> &adj)
+{
+    vector<int>ad[n+1];
+    vector<int>visited(n+1,0);
+
+    for(int i = 0 ; i < adj.size() ; i++)
+    {
+        for(auto j : adj[i])
+        {
+            ad[i].push_back(j);
+        }
+    }
+
+    vector<int>res;
+    solve(res,ad,visited);
+    return res;
+}
